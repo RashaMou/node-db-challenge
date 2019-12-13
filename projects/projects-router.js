@@ -53,23 +53,21 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:id/resources", async (req, res) => {
-  const { id } = req.params;
-  Projects.getResources(id)
-    .then(resource => {
-      if (resource) {
-        res.json(resource);
-      } else {
-        res
-          .status(404)
-          .json({
-            message: "Could not find resources for project with given id."
-          });
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: "Failed to get resources" });
-    });
-});
+// router.get("/:id/resources", (req, res) => {
+//   const id = req.params.id;
+//   Projects.getResources(id)
+//     .then(resource => {
+//       if (resource) {
+//         res.json(resource);
+//       } else {
+//         res.status(404).json({
+//           message: "Could not find resources for project with given id."
+//         });
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).json({ message: "Failed to get resources" });
+//     });
+// });
 
 module.exports = router;
