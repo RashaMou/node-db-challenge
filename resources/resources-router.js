@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", validateResource, async (req, res) => {
   const newResource = await Resources.addResource(req.body);
 
   try {
@@ -28,5 +28,17 @@ router.post("/", async (req, res) => {
     res.status(500).json("error adding resource");
   }
 });
+
+// Resources Middleware
+function validateResource(req, res, next) {
+  const { name } = req.body;
+  if (name) {
+    next();
+  } else {
+    res.status(400).json({
+      message: "Please provide a name for the resource"
+    });
+  }
+}
 
 module.exports = router;
