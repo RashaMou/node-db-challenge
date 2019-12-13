@@ -66,6 +66,37 @@ router.get("/:id/tasks", async (req, res) => {
   }
 });
 
+// router.post("/:id/tasks", async (req, res) => {
+//   const task = await Projects.addTask(req.body);
+//   try {
+//     if (task) {
+//       res.status(200).json({
+//         ...task,
+//         project_id: req.params.id
+//       });
+//     } else
+//       res.status(404).json("there are no tasks associated with this project");
+//   } catch (err) {
+//     res.status(500).json("Error adding task");
+//   }
+// });
+
+router.post("/:id/tasks", (req, res) => {
+  Projects.addTask(req.body)
+    .then(task => {
+      if (task) {
+        res.status(200).json({
+          ...task,
+          project_id: req.params.id
+        });
+      } else
+        res.status(404).json("there are no tasks associated with this project");
+    })
+    .catch(err => {
+      res.status(500).json("Error adding task");
+    });
+});
+
 // router.get("/:id/resources", (req, res) => {
 //   const id = req.params.id;
 //   Projects.getResources(id)

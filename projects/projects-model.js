@@ -4,8 +4,8 @@ module.exports = {
   getProjects,
   findProjectById,
   addProject,
-  getTasks
-  // addTask,
+  getTasks,
+  addTask
 };
 
 function getProjects() {
@@ -43,13 +43,14 @@ function getTasks(projectId) {
     .where("projects.id", projectId);
 }
 
-// function addProject(project) {
-//   db("projects")
-//     .insert(project)
-//     .then(ids => {
-//       return findProjectById(ids[0]);
-//     });
-// }
+function addTask(task) {
+  return db("tasks")
+    .insert(task)
+    .then(res => {
+      const id = res[0];
+      return db("tasks").where({ id });
+    });
+}
 
 // select
 //     id as resourceId,
