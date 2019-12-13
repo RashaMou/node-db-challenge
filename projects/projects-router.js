@@ -53,18 +53,18 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:id/tasks", async (req, res) => {
-  const tasks = await Projects.getTasks(req.params.id);
-  try {
-    if (tasks) {
-      res.status(200).json(tasks);
-    } else {
-      res.status(404).json("there are no tasks associated with this project");
-    }
-  } catch (err) {
-    res.status(500).json("Error retrieving tasks");
-  }
-});
+// router.get("/:id/tasks", async (req, res) => {
+//   const tasks = await Projects.getTasks(req.params.id);
+//   try {
+//     if (tasks) {
+//       res.status(200).json(tasks);
+//     } else {
+//       res.status(404).json("there are no tasks associated with this project");
+//     }
+//   } catch (err) {
+//     res.status(500).json("Error retrieving tasks");
+//   }
+// });
 
 // router.post("/:id/tasks", async (req, res) => {
 //   const task = await Projects.addTask(req.body);
@@ -81,21 +81,21 @@ router.get("/:id/tasks", async (req, res) => {
 //   }
 // });
 
-router.post("/:id/tasks", (req, res) => {
-  Projects.addTask(req.body)
-    .then(task => {
-      if (task) {
-        res.status(200).json({
-          ...task,
-          project_id: req.params.id
-        });
-      } else
-        res.status(404).json("there are no tasks associated with this project");
-    })
-    .catch(err => {
-      res.status(500).json("Error adding task");
-    });
-});
+// router.post("/:id/tasks", (req, res) => {
+//   Projects.addTask(req.body)
+//     .then(task => {
+//       if (task) {
+//         res.status(200).json({
+//           ...task,
+//           project_id: req.params.id
+//         });
+//       } else
+//         res.status(404).json("there are no tasks associated with this project");
+//     })
+//     .catch(err => {
+//       res.status(500).json("Error adding task");
+//     });
+// });
 
 // router.get("/:id/resources", (req, res) => {
 //   const id = req.params.id;

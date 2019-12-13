@@ -3,9 +3,7 @@ const db = require("../data/db-config");
 module.exports = {
   getProjects,
   findProjectById,
-  addProject,
-  getTasks,
-  addTask
+  addProject
 };
 
 function getProjects() {
@@ -27,29 +25,6 @@ function findProjectById(id) {
 async function addProject(project) {
   const [id] = await db("projects").insert(project);
   return findProjectById(id);
-}
-
-function getTasks(projectId) {
-  return db
-    .from("tasks")
-    .select(
-      "tasks.description",
-      "tasks.notes",
-      "tasks.completed",
-      "projects.name",
-      "projects.description"
-    )
-    .join("projects", "tasks.project_id", "=", "projects.id")
-    .where("projects.id", projectId);
-}
-
-function addTask(task) {
-  return db("tasks")
-    .insert(task)
-    .then(res => {
-      const id = res[0];
-      return db("tasks").where({ id });
-    });
 }
 
 // select
