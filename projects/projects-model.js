@@ -3,9 +3,9 @@ const db = require("../data/db-config");
 module.exports = {
   getProjects,
   findProjectById,
-  addProject
+  addProject,
+  getTasks
   // addTask,
-  // getTasks
 };
 
 function getProjects() {
@@ -27,6 +27,20 @@ function findProjectById(id) {
 async function addProject(project) {
   const [id] = await db("projects").insert(project);
   return findProjectById(id);
+}
+
+function getTasks(projectId) {
+  return db
+    .from("tasks")
+    .select(
+      "tasks.description",
+      "tasks.notes",
+      "tasks.completed",
+      "projects.name",
+      "projects.description"
+    )
+    .join("projects", "tasks.project_id", "=", "projects.id")
+    .where("projects.id", projectId);
 }
 
 // function addProject(project) {
