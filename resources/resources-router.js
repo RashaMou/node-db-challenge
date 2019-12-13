@@ -15,4 +15,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  const newResource = await Resources.addResource(req.body);
+
+  try {
+    if (newResource) {
+      res.status(201).json(newResource);
+    } else {
+      res.status(404).json("could not find specified resource");
+    }
+  } catch (err) {
+    res.status(500).json("error adding resource");
+  }
+});
+
 module.exports = router;
