@@ -3,8 +3,8 @@ const db = require("../data/db-config");
 module.exports = {
   getProjects,
   findProjectById,
-  addProject
-  // getResources
+  addProject,
+  getResources
   // addResource,
   // addTask,
   // getTasks
@@ -26,11 +26,19 @@ function findProjectById(id) {
   });
 }
 
-function addProject(project) {
-  return db("projects")
-    .insert(project, "id")
-    .then(newId => {
-      const [id] = newId;
-      return findById(id);
-    });
+async function addProject(project) {
+  const [id] = await db("projects").insert(project);
+  return findProjectById(id);
+}
+
+// function addProject(project) {
+//   db("projects")
+//     .insert(project)
+//     .then(ids => {
+//       return findProjectById(ids[0]);
+//     });
+// }
+
+function getResources(id) {
+  return db("resources").where((id = "project_id"));
 }

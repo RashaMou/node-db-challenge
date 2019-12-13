@@ -33,14 +33,42 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
-  const projectData = req.body;
-  Projects.addProject(projectData)
-    .then(project => {
-      res.status(201).json(project);
+// router.post("/", (req, res) => {
+//   // const projectData = req.body;
+//   Projects.addProject(req.body)
+//     .then(thing => {
+//       res.status(thing);
+//     })
+//     .catch(err => {
+//       res.status(500).json({ message: "I am not working" });
+//     });
+// });
+
+router.post("/", async (req, res) => {
+  const newProject = await Projects.addProject(req.body);
+  try {
+    res.status(201).json(newProject);
+  } catch (err) {
+    res.status(500).json("I am not working");
+  }
+});
+
+router.get("/:id/resources", async (req, res) => {
+  const { id } = req.params;
+  Projects.getResources(id)
+    .then(resource => {
+      if (resource) {
+        res.json(resource);
+      } else {
+        res
+          .status(404)
+          .json({
+            message: "Could not find resources for project with given id."
+          });
+      }
     })
     .catch(err => {
-      res.status(500).json({ message: "Failed to create new project" });
+      res.status(500).json({ message: "Failed to get resources" });
     });
 });
 
