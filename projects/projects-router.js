@@ -8,7 +8,14 @@ router.get("/", async (req, res) => {
   const projects = await Projects.getProjects();
   try {
     if (projects) {
-      res.status(200).json(projects);
+      res.status(200).json(
+        projects.map(project => {
+          return {
+            ...project,
+            completed: project.completed === 1 ? true : false
+          };
+        })
+      );
     } else res.status(404).json("No projects to retrieve");
   } catch (err) {
     res.status(500).json("error retrieving projects");
