@@ -5,7 +5,6 @@ const Projects = require("./projects-model.js");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  // convert boolean
   const projects = await Projects.getProjects();
   try {
     if (projects) {
